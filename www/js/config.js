@@ -4,15 +4,15 @@
 
 // Firebase Configuration and Initialization
 const firebaseConfig = {
-    apiKey: "AIzaSyCwceNNJxOmLiNQEWqA9_Kwo1p1L76Q9io",
-    authDomain: "monaca-forum-app.firebaseapp.com",
-    databaseURL: "https://monaca-forum-app-default-rtdb.firebaseio.com",
-    projectId: "monaca-forum-app",
-    storageBucket: "monaca-forum-app.appspot.com",
-    messagingSenderId: "1085793196155",
-    appId: "1:1085793196155:web:fc0b8a5e1490821723eade"
+  apiKey: "AIzaSyDXPLdqL98BsBPOGwnU9kO7_gvUjTjn5VA",
+  authDomain: "reactfirebase-c1dc0.firebaseapp.com",
+  databaseURL: "https://reactfirebase-c1dc0-default-rtdb.firebaseio.com/",
+  projectId: "reactfirebase-c1dc0",
+  storageBucket: "reactfirebase-c1dc0.appspot.com",
+  messagingSenderId: "266100355290",
+  appId: "1:266100355290:web:27527b838628fa6f69b5e3",
+  measurementId: "G-3TFNCVKG48"
 };
-
 firebase.initializeApp(firebaseConfig);
 
 // Make Auth and Firestore References

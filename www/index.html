@@ -30,9 +30,28 @@
       <div class="page" data-name="home">
         <!-- Top Navbar -->
         <div class="navbar">
-          <div class="navbar-bg"></div>
+          <div class="navbar-bg "></div>
           <div class="navbar-inner">
-            <div class="title" id="panel-header">Bulletin Board</div>
+            <div class="left">
+              <a href="#" class="link">
+                <p>Logo</p>
+              </a>
+              <a href="#" class="link">
+                <p>Inicio</p>
+              </a>
+              <a href="#" class="link new-thread-dialog">
+                Subir
+              </a>
+              <a href="#" class="link">
+                <p>Preguntas</p>
+              </a>
+              <a href="#" class="link">
+                <p>Nosotros</p>
+              </a>
+            </div>
+            <div class="center">
+               <div class="title" id="panel-header">SCUOLA</div>
+            </div>
             <div class="right">
               <div class="signed-out display">
                 <a href="#" class="link popup-open" data-popup=".login-popup">
@@ -49,9 +68,9 @@
             </div>
           </div>
         </div>
-        <!-- Scrollable Page Content-->
+         <!-- Scrollable Page Content-->
         <div class="page-content">
-          <div class="block-title">Forum Threads
+          <div class="block-title">Tareas
             <span class="signed-in display">
               <a href="#" class="link icon-only new-thread-dialog">
                 <button class="button">
@@ -60,7 +79,7 @@
                 </button>
               </a>
             </span>
-          </div>
+        </div>
           <!-- Thread list -->
           <div class="list media-list">
             <ul class="threads"></ul>
@@ -71,24 +90,24 @@
           <div class="view view-init view-popup" data-view="popup-view">
             <div class="page" data-name="popup-view">
               <div class="page-content login-screen-content">
-                <div class="login-screen-title">Login</div>
+                <div class="login-screen-title">Iniciar Sesion</div>
                 <form class="list" id="signin-form">
                   <div class="list">
                     <ul>
                       <li class="item-content item-input">
                         <div class="item-inner">
-                          <div class="item-title item-label">Email</div>
+                          <div class="item-title item-label">Correo</div>
                           <div class="item-input-wrap">
-                            <input type="email" id="signin-email" name="username" placeholder="Your email address"
+                            <input  class="padding-input" type="email" id="signin-email" name="username" placeholder="Escribe tu correo electronico"
                               required validate />
                           </div>
                         </div>
                       </li>
                       <li class="item-content item-input">
                         <div class="item-inner">
-                          <div class="item-title item-label">Password</div>
+                          <div class="item-title item-label">Contraseña</div>
                           <div class="item-input-wrap">
-                            <input type="password" id="signin-password" name="password" placeholder="Your password"
+                            <input class="padding-input" type="password" id="signin-password" name="password" placeholder="Escribe tu contraseña"
                               required validate />
                           </div>
                         </div>
@@ -97,8 +116,8 @@
                   </div>
                   <p class="item-label display-flex justify-content-center error red-text"></p>
                   <div class="row display-flex justify-content-center">
-                    <a class="button" id="sign-in" href="#">Sign In</a>
-                    <a class="button" href="/register/" data-view=".view-popup">Sign Up</a>
+                    <a class="button" id="sign-in" href="#">Iniciar sesion</a>
+                    <a class="button" href="/register/" data-view=".view-popup">Crear cuenta</a>
                   </div>
                 </form>
               </div>

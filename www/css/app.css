@@ -1,5 +1,17 @@
+.center{
+  min-width: 20%;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+.dialog{
+  min-width: 500px !important;
+}
+.navbar-bg{
+  background-color: #ff6b22 !important;
+}
 #panel-header {
-  text-align: left !important;
+  text-align: center !important;
   width: 100%;
 }
 
@@ -49,7 +61,7 @@
 }
 
 .delete-thread-dialog {
-  background-color: red !important;
+  background-color: #ff2d55 !important;
 }
 
 .red-text {
@@ -90,6 +102,9 @@
   -webkit-animation-duration: 0.6s;
   animation-name: zoom;
   animation-duration: 0.6s;
+}
+.padding-input{
+  padding-left: 5px !important;
 }
 
 @-webkit-keyframes zoom {

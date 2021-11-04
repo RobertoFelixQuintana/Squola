@@ -6165,7 +6165,10 @@ i.icon {
 .dialog {
   position: absolute;
   z-index: 13500;
-  left: 50%;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  left: 80%;
   margin-top: 0;
   top: 50%;
   overflow: hidden;

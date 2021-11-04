@@ -1,23 +1,23 @@
 <template>
   <div class="page" data-name="register">
     <div class="page-content login-screen-content">
-      <div class="login-screen-title">Register</div>
+      <div class="login-screen-title">Registrate</div>
       <form class="list" id="signup-form">
         <div class="list">
           <ul>
             <li class="item-content item-input">
               <div class="item-inner">
-                <div class="item-title item-label">Email</div>
+                <div class="item-title item-label">Correo</div>
                 <div class="item-input-wrap">
-                  <input type="email" id="signup-email" name="email" placeholder="Your email address" required validate/>
+                  <input type="email" class="padding-input" id="signup-email" name="email" placeholder="Escribe tu correo" required validate/>
                 </div>
               </div>
             </li>
             <li class="item-content item-input">
               <div class="item-inner">
-                <div class="item-title item-label">Password</div>
+                <div class="item-title item-label">Contraseña</div>
                 <div class="item-input-wrap">
-                  <input type="password" id="signup-password" name="password" placeholder="Your password" required validate/>
+                  <input type="password" class="padding-input" id="signup-password" name="password" placeholder="Escribe tu contraseña" required validate/>
                 </div>
               </div>
             </li>
@@ -25,10 +25,10 @@
         </div>
         <p class="item-label display-flex justify-content-center error red-text"></p>
         <div class="row display-flex justify-content-center">
-          <a class="button" id="sign-up">Sign Up</a>
+          <a class="button" id="sign-up">Crear cuenta</a>
         </div>
         <div class="block-footer">
-          <p class="text-align-right">Already Have an Account? <a class="link" href="/login/">Sign in</a></p>
+          <p class="text-align-right">Ya tienes una cuenta? <a class="link" href="/login/">Inicia Sesion</a></p>
         </div>
       </form>
     </div>
