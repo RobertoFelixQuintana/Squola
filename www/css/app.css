@@ -5,8 +5,10 @@
   justify-content: center;
 }
 .dialog{
-  min-width: 500px !important;
+  left: 45% !important;
+  min-width: 400px !important;
 }
+
 .navbar-bg{
   background-color: #ff6b22 !important;
 }

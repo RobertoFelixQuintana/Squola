@@ -6161,16 +6161,14 @@ i.icon {
 .dialog {
   position: absolute;
   z-index: 13500;
-  left: 10%;
+  left: 50%;
   margin-top: 0;
   top: 50%;
   overflow: hidden;
   opacity: 0;
   transform: translate3d(0, -50%, 0) scale(1.185);
   transition-property: transform, opacity;
-  align-items: center;
-  display: flex;
-  justify-content: center;
+  display:none;
   transition-duration: 400ms;
   box-shadow: var(--f7-dialog-box-shadow);
   width: var(--f7-dialog-width);
