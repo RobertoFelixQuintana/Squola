@@ -5,18 +5,15 @@
   justify-content: center;
 }
 .dialog{
-  left: 45% !important;
-  min-width: 400px !important;
+  left: 42% !important;
+  min-width: 470px !important;
 }
-
 .navbar-bg{
   background-color: #ff6b22 !important;
 }
 #panel-header {
   text-align: center !important;
-  width: 100%;
 }
-
 .display {
   display: none;
 }
@@ -60,10 +57,6 @@
 
 #text {
   padding-left: 0px;
-}
-
-.delete-thread-dialog {
-  background-color: #ff2d55 !important;
 }
 
 .red-text {

@@ -9,12 +9,12 @@
   <meta name="theme-color" content="#007aff">
   <meta name="format-detection" content="telephone=no">
   <meta name="msapplication-tap-highlight" content="no">
-  <title>Forum App</title>
+  <title>Scuola</title>
 
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
-  <link rel="icon" href="assets/icons/favicon.png">
+  <link rel="icon" href="./logo.png">
 
   <link rel="stylesheet" href="framework7/css/framework7.bundle.min.css">
   <link rel="stylesheet" href="css/icons.css">
@@ -30,56 +30,50 @@
       <div class="page" data-name="home">
         <!-- Top Navbar -->
         <div class="navbar">
-          <div class="navbar-bg "></div>
-          <div class="navbar-inner">
-            <div class="left">
-              <a href="#" class="link">
-                <p>Logo</p>
-              </a>
-              <a href="#" class="link">
-                <p>Inicio</p>
-              </a>
-              <a href="#" class="link new-thread-dialog">
-                Subir
-              </a>
-              <a href="#" class="link">
-                <p>Preguntas</p>
-              </a>
-              <a href="#" class="link">
-                <p>Nosotros</p>
-              </a>
-            </div>
-            <div class="center">
-               <div class="title" id="panel-header">SCUOLA</div>
-            </div>
-            <div class="right">
-              <div class="signed-out display">
-                <a href="#" class="link popup-open" data-popup=".login-popup">
-                  <i class="f7-icons if-not-md">person</i>
-                  <i class="material-icons md-only">person</i>
-                </a>
+          <div class="navbar-bg"></div>
+              <div class="navbar-inner">
+                <div class="left sliding">
+                  <a href="#" class="link">
+                    Logo
+                  </a>
+                  <a href="#" class="link">
+                    Inicio
+                  </a>
+                  <a href="#" class="link new-thread-dialog">
+                    Subir
+                  </a>
+                  <a href="#" class="link">
+                    Preguntas
+                  </a>
+                  <a href="#" class="link">
+                    Nosotros
+                  </a>
+                </div>
+                <div class="center">
+                  <div id="panel-header">
+                    <a href="#" class="link color-blue">
+                      SCUOLA
+                    </a>
+                  </div>
+                </div>
+                <div class="right">
+                  <div class="signed-out display">
+                    <a href="#" class="link popup-open" data-popup=".login-popup">
+                      <i class="f7-icons if-not-md">person</i>
+                      <i class="material-icons md-only">person</i>
+                    </a>
+                </div>
+                <div class="signed-in display">
+                   <a href="#" class="link" id="logout">
+                     <i class="f7-icons if-not-md">square_arrow_right</i>
+                     <i class="material-icons md-only">exit_to_app</i>
+                   </a>
+                </div>
               </div>
-              <div class="signed-in display">
-                <a href="#" class="link" id="logout">
-                  <i class="f7-icons if-not-md">square_arrow_right</i>
-                  <i class="material-icons md-only">exit_to_app</i>
-                </a>
-              </div>
             </div>
-          </div>
         </div>
          <!-- Scrollable Page Content-->
         <div class="page-content">
-          <div class="block-title">Tareas
-            <span class="signed-in display">
-              <a href="#" class="link icon-only new-thread-dialog">
-                <button class="button">
-                  <i class="icon f7-icons size-18 if-not-md">plus</i>
-                  <i class="icon material-icons md-18 if-md">add</i>
-                </button>
-              </a>
-            </span>
-        </div>
           <!-- Thread list -->
           <div class="list media-list">
             <ul class="threads"></ul>

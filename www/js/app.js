@@ -1,5 +1,6 @@
 const $$ = Dom7;
 
+//Inicializar app
 const app = new Framework7({
   root: '#app', // App Root Element
   name: 'framework7-core-tab-view', // App Name
@@ -121,7 +122,7 @@ const setUpThreads = (data) => {
           </a>
         </div>
         <div class="swipeout-actions-right">
-          <a href="#" class="delete-thread-dialog" data-thread-id="${doc.id}">Delete</a>
+          <a href="#" class="delete-thread-dialog" data-thread-id="${doc.id}"><i class="icon f7-icons">trash_circle_fill</i></a>
         </div>
       </li> `;
     displayImage('threads/', doc.id, `${doc.id}-img`, false);
@@ -129,7 +130,7 @@ const setUpThreads = (data) => {
     count++;
   });
   threadsList.innerHTML = (count == 0)
-    ? noContent('No Threads Yet', 'Be the first to create one!')
+    ? noContent('No hay tareas', 'Postea tu tarea')
     : html;
 
   deleteOption('.thread', '.swipeout-actions-right');
@@ -203,7 +204,7 @@ const setUpComments = (id) => {
         }
       });
       commentsList.innerHTML = (count == 0)
-        ? noContent('No Comments Yet', 'Be the first to share what you think!')
+        ? noContent('Sin comentarios', 'Agrega uno para ser el primero!')
         : html;
 
       deleteOption('.comment', '#trash-icon');
@@ -296,7 +297,7 @@ const loginSwipeToClosePopup = app.popup.create({
 // Open a Dialog For Adding a New Thread
 $$('.new-thread-dialog').on('click', function () {
   app.dialog.create({
-    content: ' <div class="page-content login-screen-content"> <div class="block-title">Nueva Tarea</div> <form class="list" id="create-thread-form"> <div class="list" id="dialog-list"> <ul> <li class="item-content item-input"> <div class="item-inner"> <div class="item-input-wrap"> <input type="text" id="title" name="title" placeholder="Titulo de Tarea" required validate/> </div> </div> </li> <li class="item-content item-input"> <div class="item-inner"> <div class="item-input-wrap"> <textarea id="description" name="description" placeholder="Descripcion" required validate></textarea> </div> </div> </li> <li class="item-content item-input"> <div class="display-flex justify-content-center	"> <input type="file" id="thread-img-upload" required validate> </li> </ul> </div> <div class="row display-flex justify-content-center"> <a class="button" id="create-thread" href="#">Subir Tarea</a> <a class="button" id="cancel-thread" href="#">Cancelar</a> </div> </form> </div>',
+    content: ' <div class="page-content login-screen-content"> <div class="title">Nueva Tarea</div> <form class="list" id="create-thread-form"> <div class="list" id="dialog-list"> <ul> <li class="item-content item-input"> <div class="item-inner"> <div class="item-input-wrap"> <input type="text" id="title" name="title" placeholder="Titulo de Tarea" required validate/> </div> </div> </li> <li class="item-content item-input"> <div class="item-inner"> <div class="item-input-wrap"> <textarea id="description" name="description" placeholder="Descripcion" required validate></textarea> </div> </div> </li> <li class="item-content item-input"> <input class="list-button" type="file" id="thread-img-upload" required validate> </li> </ul>  <div class="row display-flex justify-content-center margin-top"> <a class="button" id="create-thread" href="#">Subir Tarea</a> <a class="button" id="cancel-thread" href="#">Cancelar</a> </div> </form> </div>',
     cssClass: 'dialog'
   }).open();
 
@@ -311,7 +312,7 @@ $$(document).on('click', '#cancel-thread', function () {
 // Open a Dialog For Adding a New Comment
 $$(document).on('click', '.new-comment-dialog', function () {
   app.dialog.create({
-    content: '<div class="page-content login-screen-content"> <form class="list" id="add-comment-form"> <div class="list" id="dialog-list"> <ul> <li class="item-content item-input"> <div class="item-inner"> <div class="item-input-wrap"> <textarea id="description" name="description" placeholder="Write your comment here" required validate></textarea> </div> </div> </li> <li class="item-content item-input"> <div class="item-inner"> <input type="file" id="comment-img-upload"> </li> </ul> </div> <div class="row display-flex justify-content-center"> <a class="button" id="add-comment" href="#">Submit</a>  <a class="button" id="cancel-comment" href="#">Cancel</a></div> </form> </div>',
+    content: '<div class="page-content login-screen-content"> <div class="title">Agregar Comentario</div> <form class="list" id="add-comment-form"> <div class="list" id="dialog-list"> <ul> <li class="item-content item-input"> <div class="item-inner"> <div class="item-input-wrap"> <textarea id="description" name="description" placeholder="Escribe tu comentario" required validate></textarea> </div> </div> </li> <li class="item-content item-input"> <div class="item-inner"> <input class="list-button" type="file" id="comment-img-upload"> </li> </ul> </div> <div class="row display-flex justify-content-center"> <a class="button" id="add-comment" href="#">Enviar</a>  <a class="button" id="cancel-comment" href="#">Cancelar</a></div> </form> </div>',
     cssClass: 'dialog'
   }).open();
 });
@@ -324,7 +325,7 @@ $$(document).on('click', '#cancel-comment', function () {
 // Confirmation Dialog For Deleting a Thread
 $$(document).on('click', '.delete-thread-dialog', function () {
   let id = $$(this).data('thread-id');
-  app.dialog.confirm(' Are you sure you want to delete the thread?', '', function () {
+  app.dialog.confirm('¿Esta seguro de borrar esta tarea?', '', function () {
     deleteContent('threads', id);
     deleteImage('threads/', id);
   });
@@ -335,7 +336,7 @@ $$(document).on('click', '.delete-comment-dialog', function () {
   let thread = $$(this).data('thread-id');
   let id = $$(this).data('comment-id');
   let image = $$(this).data('comment-img');
-  app.dialog.confirm(' Are you sure you want to delete the comment?', '', function () {
+  app.dialog.confirm('Esta seguro de borrar este comentario?', '', function () {
     deleteContent('comments', id);
     (image == 'true') ? deleteImage('comments/', id) : setUpComments(thread);
   });
