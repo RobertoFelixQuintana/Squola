@@ -121,7 +121,16 @@
   font-weight: bold;
   transition: 0.3s;
 }
-
+.delete-comment-dialog:hover{
+  cursor: pointer;
+}
+.size-22 { font-size: 22px }
+.size-25 { font-size: 25px }
+.size-36 { font-size: 36px }
+.size-50 { font-size: 50px }
+.prior{
+  min-width: auto;
+}
 @media only screen and (max-width: 700px){
   .modal-content {
     width: 70%;

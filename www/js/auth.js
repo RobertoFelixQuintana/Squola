@@ -10,8 +10,11 @@ auth.onAuthStateChanged(user => setUpUI(user));
 
 // Logout
 const logoutBtn = document.querySelector('#logout');
-logoutBtn.addEventListener('click', () => auth.signOut());
-
+logoutBtn.addEventListener('click', () => {
+  app.dialog.confirm('¿Seguro que quiere cerrar su sesion?', '', function () {
+    auth.signOut();
+  });
+})  
 // Login
 const signInForm = document.querySelector('#signin-form');
 const signInBtn = document.querySelector('#sign-in');

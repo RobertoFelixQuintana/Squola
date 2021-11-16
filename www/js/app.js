@@ -1,3 +1,4 @@
+
 const $$ = Dom7;
 
 //Inicializar app
@@ -39,7 +40,7 @@ const uploadImage = (folder, element, id, thread) => {
 
   if (file != undefined) {
     const ref = firebase.storage().ref(folder);
-    const name = id + '.jpg';
+    const name = id + '.pdf';
     const metadata = { contentType: file.type };
 
     ref.child(name).put(file, metadata)
@@ -56,20 +57,20 @@ const uploadImage = (folder, element, id, thread) => {
 // Display Thread/Comment Image
 const displayImage = (folder, id, element, background) => {
   const ref = firebase.storage().ref(folder);
-  const name = id + '.jpg';
+  const name = id + '.pdf';
 
   ref.child(name)
     .getDownloadURL()
     .then(url => {
       (background)
-        ? document.getElementById(element).style.backgroundImage = 'url(' + url + ')'
+        ? document.getElementById('pdfViewer').setAttribute("src",url)
         : document.getElementById(element).src = url;
     }).catch();
 }
 
 // Delete Thread/Comment Image
 const deleteImage = (folder, id) => {
-  const ref = firebase.storage().ref(folder).child(id + '.jpg');
+  const ref = firebase.storage().ref(folder).child(id + '.pdf');
   // Delete the file
   ref.delete();
 }
@@ -101,40 +102,42 @@ const newThread = () => {
 // Setting Up The Threads
 const setUpThreads = (data) => {
   let count = 0;
-  let html = '';
-  data.forEach(doc => {
+  let html = "";
+  data.forEach((doc) => {
     const thread = doc.data();
-    let email = thread.email.split('@');
+    let email = thread.email.split("@");
     let username = email[0];
     const li = `
-      <li class="swipeout thread" id="${thread.user}">
-        <div class="swipeout-content">
-          <a href="/thread/${doc.id}/" data-thread-id="${doc.id}" class="item-link item-content thread-details">
-            <div class="item-media"><img id="${doc.id}-img" class="lazy lazy-fade-in" width="40" height="40"/></div>
-            <div class="item-inner">
-              <div class="item-title-row">
-                <div class="item-title">${thread.title}  
-                  <div id="username" class="display-inline">${username}</div>
-                </div>
+      <li class="thread item-inner" id="${thread.user}">
+          <a href="/thread/${doc.id}/" data-thread-id="${doc.id}" class="item-link thread-details">
+            <div class="item-content "> 
+              <div class="item-media item-block prior padding justify-content-center">
+                <img src='assets/pdf.png' alt="pdf" class="lazy lazy-fade-in" height="60"/>
               </div>
-              <div class="item-text">${thread.description}</div>
+              <div class="item-cell padding-left">
+                  <div class="item-row">
+                    <div class="item-title"><b>${thread.title}</b>  
+                      <div id="username" class="display-inline"><span><b>Publicado por: </b></span><u>${username}</u></div>
+                    </div>
+                    <div class="item-text">
+                      ${thread.description}
+                    </div>
+                    <div class="H align-self-center color-theme-red">
+                      <a href="#" class="delete-thread-dialog" data-thread-id="${doc.id}"><i class="icon f7-icons size-36">trash_circle_fill</i></a>
+                    </div>
+                  </div>
+              </div> 
             </div>
-          </a>
-        </div>
-        <div class="swipeout-actions-right">
-          <a href="#" class="delete-thread-dialog" data-thread-id="${doc.id}"><i class="icon f7-icons">trash_circle_fill</i></a>
-        </div>
+          </a> 
       </li> `;
-    displayImage('threads/', doc.id, `${doc.id}-img`, false);
     html += li;
     count++;
   });
-  threadsList.innerHTML = (count == 0)
-    ? noContent('No hay tareas', 'Postea tu tarea')
-    : html;
+  threadsList.innerHTML =
+    count == 0 ? noContent("No hay tareas", "Sube tu primer tarea!") : html;
 
-  deleteOption('.thread', '.swipeout-actions-right');
-}
+  deleteOption(".thread", ".H");
+};
 
 // Setting Up The Thread Details
 const setUpThreadDetails = (id) => {
@@ -188,6 +191,7 @@ const setUpComments = (id) => {
         const comment = doc.data();
         let email = comment.email.split('@');
         let username = email[0];
+        var options = {weekday: "long", year: "numeric", month: "long", day: "numeric"};
         if (id == comment.thread) {
           const li = `
           <div class="card demo-card-header-pic comment" id="${comment.user}">
@@ -195,7 +199,7 @@ const setUpComments = (id) => {
               <img id="${doc.id}-img" src="./assets/comments-icon.png" class="float-left lazy lazy-fade-in enlarge-image" width="40" height="40"/>
               <p class="item-subtitle" id="comment-description">${comment.text}</p>
             </div>
-            <p class="date" id="comment-date">${comment.added.toDate().toDateString()}, ${username} <span id="trash-icon"> <i class="icon f7-icons size-15 delete-comment-dialog" data-thread-id="${comment.thread}" data-comment-id="${doc.id}" data-comment-img="${comment.picture}">trash</i></span></p>
+            <p class="date" id="comment-date">${comment.added.toDate().toLocaleDateString("es-ES",options)}, ${username} <span id="trash-icon"> <i class="icon f7-icons size-22 color-red delete-comment-dialog" data-thread-id="${comment.thread}" data-comment-id="${doc.id}" data-comment-img="${comment.picture}">trash</i></span></p>
           </div>`;
           if (comment.picture)
             displayImage('comments/', doc.id, `${doc.id}-img`, false);
@@ -264,9 +268,9 @@ const deleteContent = (collection, id) => {
 // Display Text When There Is No Thread/Comment Added
 const noContent = (title, text) => {
   return `
-    <div class="card-content card-content-padding">
-      <div class="item-subtitle">${title}</div>    
-      <p class="date" id="text">${text}</p>
+    <div class="card-content card-content-padding text-align-center">
+      <div class="item-title"><b>${title}</b></div>    
+      <p class="item-subtitle" id="text">${text}</p>
     </div>
   `;
 }
@@ -284,7 +288,7 @@ $$(document).on('click', '.thread-details', function () {
   const id = $$(this).data('thread-id');
   setUpThreadDetails(id);
   setUpComments(id);
-  newComment(id);
+  newComment(id);  
 });
 
 // Pop Up With Swipe To Close
@@ -326,7 +330,7 @@ $$(document).on('click', '#cancel-comment', function () {
 $$(document).on('click', '.delete-thread-dialog', function () {
   let id = $$(this).data('thread-id');
   app.dialog.confirm('¿Esta seguro de borrar esta tarea?', '', function () {
-    deleteContent('threads', id);
+    deleteContent('comments', id);
     deleteImage('threads/', id);
   });
 });
@@ -341,3 +345,5 @@ $$(document).on('click', '.delete-comment-dialog', function () {
     (image == 'true') ? deleteImage('comments/', id) : setUpComments(thread);
   });
 });
+
+
