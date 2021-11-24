@@ -300,11 +300,11 @@ const loginSwipeToClosePopup = app.popup.create({
 // Dialogs 
 // Open a Dialog For Adding a New Thread
 $$('.new-thread-dialog').on('click', function () {
+
   app.dialog.create({
-    content: ' <div class="page-content login-screen-content"> <div class="title">Nueva Tarea</div> <form class="list" id="create-thread-form"> <div class="list" id="dialog-list"> <ul> <li class="item-content item-input"> <div class="item-inner"> <div class="item-input-wrap"> <input type="text" id="title" name="title" placeholder="Titulo de Tarea" required validate/> </div> </div> </li> <li class="item-content item-input"> <div class="item-inner"> <div class="item-input-wrap"> <textarea id="description" name="description" placeholder="Descripcion" required validate></textarea> </div> </div> </li> <li class="item-content item-input"> <input class="list-button" type="file" id="thread-img-upload" required validate> </li> </ul>  <div class="row display-flex justify-content-center margin-top"> <a class="button" id="create-thread" href="#">Subir Tarea</a> <a class="button" id="cancel-thread" href="#">Cancelar</a> </div> </form> </div>',
+    content: `' <div class="page-content login-screen-content"> <div class="title">Nueva Tarea</div> <form class="list" id="create-thread-form"> <div class="list" id="dialog-list"> <ul> <li class="item-content item-input"> <div class="item-inner"> <div class="item-input-wrap"> <input type="text" id="title" name="title" placeholder="Titulo de Tarea" required validate/> </div> </div> </li> <li class="item-content item-input"> <div class="item-inner"> <div class="item-input-wrap"> <textarea id="description" name="description" placeholder="Descripcion" required validate></textarea> </div> </div> </li> <li class="item-content item-input"> <input class="list-button" type="file" id="thread-img-upload" required validate> </li> </ul>  <div class="row display-flex justify-content-center margin-top"> <a class="button" id="create-thread" href="#">Subir Tarea</a> <a class="button" id="cancel-thread" href="#">Cancelar</a> </div> </form> </div>'`,
     cssClass: 'dialog'
   }).open();
-
   newThread();
 });
 
@@ -330,7 +330,7 @@ $$(document).on('click', '#cancel-comment', function () {
 $$(document).on('click', '.delete-thread-dialog', function () {
   let id = $$(this).data('thread-id');
   app.dialog.confirm('¿Esta seguro de borrar esta tarea?', '', function () {
-    deleteContent('comments', id);
+    deleteContent('threads', id);
     deleteImage('threads/', id);
   });
 });
@@ -345,5 +345,7 @@ $$(document).on('click', '.delete-comment-dialog', function () {
     (image == 'true') ? deleteImage('comments/', id) : setUpComments(thread);
   });
 });
+
+
 
 

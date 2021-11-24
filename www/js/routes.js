@@ -5,6 +5,11 @@ const routes = [
     url: './index.html',
   },
   {
+    name: 'history',
+    path: '/history',
+    url: './pages//history.html',
+  },
+  {
     path: '/login/',
     el: document.querySelector('.page[data-name="popup-view"]'),
   },

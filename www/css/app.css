@@ -4,6 +4,13 @@
   display: flex;
   justify-content: center;
 }
+.link{
+  font-weight:600;
+}
+.page-content{
+  min-height: 100% !important;
+}
+
 .dialog{
   left: 42% !important;
   min-width: 470px !important;
