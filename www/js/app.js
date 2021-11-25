@@ -90,39 +90,42 @@ const newThread = () => {
     var input,input2, filter, ul, li, b, i, txtValue;
     var cont=0;
 
-    input = document.getElementById('buscador');
-    input2 = document.getElementById('avisoUl');
+
+    input = document.getElementById('buscador');    
     filter = input.value.toUpperCase();
     ul = document.getElementById("buscadorUl");
+    ul2 = document.getElementById("buscadorUl2");
+    ul2.innerHTML=`
+    <div id="avisoUl" class="display">
+      <h1 class="text-align-center">No hay estudiantes</h1>
+    </div> `;
+    input2 = document.getElementById('avisoUl');
     li = ul.getElementsByTagName('li');
     // Loop through all list items, and hide those who don't match the search query
     for (i = 0; i < li.length; i++) {
       b = li[i].getElementsByTagName("b")[0];
       txtValue = b.textContent || b.innerText;
-      console.log('txtValue',txtValue);
-      console.log('b',b.innerText);
-      console.log('filter',filter);
       if (txtValue.toUpperCase().indexOf(filter) > -1) {
         li[i].style.display = "";
-        cont -=1;
       } else {
         li[i].style.display = "none";
-        cont +=1;
       } 
+      if(li[i].style.display ==""){
+        cont -=1;
+      }else{
+        cont +=1;
+      }
     }
-    
     console.log('cont',cont);
     console.log('length',li.length);
-    /*
-    if(cont==li.length){
-        ul.innerHTML=`
+    if(cont!=li.length){
+        input2.classList.add('display');
+    }else{
+      ul2.innerHTML=`
         <div id="avisoUl" class="item-inner">
           <h1 class="text-align-center">No hay estudiantes</h1>
         </div> `;
-    }else{
-      input2.classList.remove('item-inner');
-      input2.classList.add('display');
-    }*/
+    }
  
   }
   
