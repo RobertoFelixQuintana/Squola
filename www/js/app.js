@@ -37,7 +37,6 @@ const setUpUI = (user) => {
 // Upload Thread/Comment Image to Firebase Storage
 const uploadPdf = (folder, element, id, thread) => {
   let file = document.querySelector(element).files[0];
-  console.log(file);
   if (file != undefined) {
     const ref = firebase.storage().ref(folder);
     const name = id + '.pdf';
@@ -198,23 +197,16 @@ const setUpHistory= () => {
     .then((snapshot) => {  
       let count = 0;
       let html = '';        
-      let tarea;    
       const historyList= document.querySelector('.history');
       const noHistory = document.querySelector('.noContentHistory');
-
-      console.log('snap',snapshot);
       snapshot.docs.forEach((doc) => {
-        
         const thread = doc.data();
         if(firebase.auth().currentUser.uid==thread.user){
-          tarea=true;
           const title= thread.title;
           const description = thread.description;
-          const created= thread.created;
-          const fecha=new Date(created.seconds*1000)
-          noHistory.classList.remove('noContentHistory');
-          noHistory.classList.remove('text-align-center');
-          noHistory.classList.add('display');
+          let created= thread.created;
+          created=new Date(created.seconds*1000)
+          const fecha=created.toLocaleString("es-mx", { weekday: "long", year:"numeric", month:"long",timeZoneName:"long",hour:"numeric", minute:"numeric" }).toUpperCase(); 
           const li = `
           <li class="item-content">
                 <div class="item-inner"> 
@@ -238,14 +230,18 @@ const setUpHistory= () => {
           </li> `;
         html += li;
         count++;
-        }else{
-          tarea=false;
-          noHistory.classList.remove('display');
-          noHistory.classList.add('noContentHistory');
-          noHistory.classList.remove('text-align-center');
         }
       });
-    historyList.innerHTML = count==0 ? tarea=false : html;
+    if(count==0){
+      noHistory.classList.remove('display');
+      noHistory.classList.add('noContentHistory');
+      noHistory.classList.add('text-align-center');
+    }else{
+      historyList.innerHTML=html;
+      noHistory.classList.remove('noContentHistory');
+      noHistory.classList.remove('text-align-center');
+      noHistory.classList.add('display');
+    }
     });
 }
 
