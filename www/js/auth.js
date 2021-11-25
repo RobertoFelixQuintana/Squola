@@ -13,6 +13,7 @@ const logoutBtn = document.querySelector('#logout');
 logoutBtn.addEventListener('click', () => {
   app.dialog.confirm('¿Seguro que quiere cerrar su sesion?', '', function () {
     auth.signOut();
+    window.location.reload();
   });
 })  
 // Login
@@ -31,6 +32,7 @@ signInBtn.addEventListener('click', () => {
       app.popup.close('.login-popup');
       signInForm.reset();
       signInForm.querySelector('.error').innerHTML = '';
+      window.location.reload();
     }).catch(error => {
       signInForm.querySelector('.error').innerHTML = error.message;
     });

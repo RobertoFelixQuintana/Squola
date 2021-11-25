@@ -35,7 +35,7 @@ const setUpUI = (user) => {
 }
 
 // Upload Thread/Comment Image to Firebase Storage
-const uploadImage = (folder, element, id, thread) => {
+const uploadPdf = (folder, element, id, thread) => {
   let file = document.querySelector(element).files[0];
   console.log(file);
   if (file != undefined) {
@@ -52,6 +52,30 @@ const uploadImage = (folder, element, id, thread) => {
         }
       }).catch(error => console.log(error));
   } else setUpComments(thread);
+}
+const displayUrl = (folder, id) => {
+  const ref = firebase.storage().ref(folder);
+  const name = id + '.pdf';
+
+  ref.child(name)
+    .getDownloadURL()
+    .then(url => {
+        document.getElementById('pdfViewer').setAttribute("src",url)
+    }).catch();
+}
+// Setting Up The Thread Details 1
+const setUpThreadDetails = (id) => {
+  db.collection('threads')
+    .where(firebase.firestore.FieldPath.documentId(), "==", id)
+    .get()
+    .then((snapshot) => {
+      snapshot.docs.forEach((doc) => {
+        const thread = doc.data();
+        document.getElementById("thread-title").innerText = thread.title;
+        document.getElementById("thread-description").innerText = thread.description;
+        displayUrl('threads/', doc.id);
+      });
+    });
 }
 
 // Delete Thread/Comment Image
@@ -78,7 +102,7 @@ const newThread = () => {
         description: createThreadForm['description'].value,
         created: firebase.firestore.Timestamp.now()
       }).then(doc => {
-        uploadImage('threads/', '#thread-img-upload', doc.id);
+        uploadPdf('threads/', '#thread-img-upload', doc.id);
         createThreadForm.reset();
       });
     }
@@ -89,8 +113,6 @@ const newThread = () => {
     // Declare variables
     var input,input2, filter, ul, li, b, i, txtValue;
     var cont=0;
-
-
     input = document.getElementById('buscador');    
     filter = input.value.toUpperCase();
     ul = document.getElementById("buscadorUl");
@@ -105,7 +127,7 @@ const newThread = () => {
     for (i = 0; i < li.length; i++) {
       b = li[i].getElementsByTagName("b")[0];
       txtValue = b.textContent || b.innerText;
-      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+      if (txtValue.normalize("NFD").replace(/[\u0300-\u036f]/g, '').toUpperCase().indexOf(filter) > -1) {
         li[i].style.display = "";
       } else {
         li[i].style.display = "none";
@@ -116,8 +138,6 @@ const newThread = () => {
         cont +=1;
       }
     }
-    console.log('cont',cont);
-    console.log('length',li.length);
     if(cont!=li.length){
         input2.classList.add('display');
     }else{
@@ -229,19 +249,6 @@ const setUpHistory= () => {
     });
 }
 
-// Setting Up The Thread Details
-const setUpThreadDetails = (id) => {
-  db.collection('threads')
-    .where(firebase.firestore.FieldPath.documentId(), "==", id)
-    .get()
-    .then((snapshot) => {
-      snapshot.docs.forEach((doc) => {
-        const thread = doc.data();
-        document.getElementById("thread-title").innerText = thread.title;
-        document.getElementById("thread-description").innerText = thread.description;
-      });
-    });
-}
 
 // Add New Comment
 const newComment = (id) => {
