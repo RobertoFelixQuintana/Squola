@@ -37,7 +37,7 @@ const setUpUI = (user) => {
 // Upload Thread/Comment Image to Firebase Storage
 const uploadImage = (folder, element, id, thread) => {
   let file = document.querySelector(element).files[0];
-
+  console.log(file);
   if (file != undefined) {
     const ref = firebase.storage().ref(folder);
     const name = id + '.pdf';
@@ -52,20 +52,6 @@ const uploadImage = (folder, element, id, thread) => {
         }
       }).catch(error => console.log(error));
   } else setUpComments(thread);
-}
-
-// Display Thread/Comment Image
-const displayImage = (folder, id, element, background) => {
-  const ref = firebase.storage().ref(folder);
-  const name = id + '.pdf';
-
-  ref.child(name)
-    .getDownloadURL()
-    .then(url => {
-      (background)
-        ? document.getElementById('pdfViewer').setAttribute("src",url)
-        : document.getElementById(element).src = url;
-    }).catch();
 }
 
 // Delete Thread/Comment Image
@@ -98,6 +84,48 @@ const newThread = () => {
     }
   });
 }
+  //Funcion search
+  function Search() {
+    // Declare variables
+    var input,input2, filter, ul, li, b, i, txtValue;
+    var cont=0;
+
+    input = document.getElementById('buscador');
+    input2 = document.getElementById('avisoUl');
+    filter = input.value.toUpperCase();
+    ul = document.getElementById("buscadorUl");
+    li = ul.getElementsByTagName('li');
+    // Loop through all list items, and hide those who don't match the search query
+    for (i = 0; i < li.length; i++) {
+      b = li[i].getElementsByTagName("b")[0];
+      txtValue = b.textContent || b.innerText;
+      console.log('txtValue',txtValue);
+      console.log('b',b.innerText);
+      console.log('filter',filter);
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        li[i].style.display = "";
+        cont -=1;
+      } else {
+        li[i].style.display = "none";
+        cont +=1;
+      } 
+    }
+    
+    console.log('cont',cont);
+    console.log('length',li.length);
+    /*
+    if(cont==li.length){
+        ul.innerHTML=`
+        <div id="avisoUl" class="item-inner">
+          <h1 class="text-align-center">No hay estudiantes</h1>
+        </div> `;
+    }else{
+      input2.classList.remove('item-inner');
+      input2.classList.add('display');
+    }*/
+ 
+  }
+  
 
 // Setting Up The Threads
 const setUpThreads = (data) => {
@@ -109,14 +137,14 @@ const setUpThreads = (data) => {
     let username = email[0];
     const li = `
       <li class="thread item-inner" id="${thread.user}">
-          <a href="/thread/${doc.id}/" data-thread-id="${doc.id}" class="item-link thread-details">
+          <a href="/thread/${doc.id}/" data-thread-id="${doc.id}" data-thread-name="${thread.title}" class="item-link thread-details">
             <div class="item-content "> 
               <div class="item-media item-block prior padding justify-content-center">
                 <img src='assets/pdf.png' alt="pdf" class="lazy lazy-fade-in" height="60"/>
               </div>
               <div class="item-cell padding-left">
                   <div class="item-row">
-                    <div class="item-title"><b>${thread.title}</b>  
+                    <div id="titleBuscar" class="item-title"><b>${thread.title}</b>  
                       <div id="username" class="display-inline"><span><b>Publicado por: </b></span><u>${username}</u></div>
                     </div>
                     <div class="item-text">
@@ -139,6 +167,65 @@ const setUpThreads = (data) => {
   deleteOption(".thread", ".H");
 };
 
+// Setting History User
+const setUpHistory= () => {
+
+  db.collection('threads')
+    .get()
+    .then((snapshot) => {  
+      let count = 0;
+      let html = '';        
+      let tarea;    
+      const historyList= document.querySelector('.history');
+      const noHistory = document.querySelector('.noContentHistory');
+
+      console.log('snap',snapshot);
+      snapshot.docs.forEach((doc) => {
+        
+        const thread = doc.data();
+        if(firebase.auth().currentUser.uid==thread.user){
+          tarea=true;
+          const title= thread.title;
+          const description = thread.description;
+          const created= thread.created;
+          const fecha=new Date(created.seconds*1000)
+          noHistory.classList.remove('noContentHistory');
+          noHistory.classList.remove('text-align-center');
+          noHistory.classList.add('display');
+          const li = `
+          <li class="item-content">
+                <div class="item-inner"> 
+                  <div class="item-cell">
+                      <div class="item-row">
+                        <div class="item-title"><b>Titulo de la tarea: ${title}</b>  
+                      </div>
+                      </div>
+                      <div class="item-row">
+                        <div class="item-text">
+                          Descripcion de la tarea: ${description}
+                        </div>
+                      </div>
+                      <div class="item-row">
+                        <div class="item-text">
+                        Fecha de subidad de la tarea: ${fecha}
+                        </div>
+                      </div>
+                  </div> 
+                </div>
+          </li> `;
+        html += li;
+        count++;
+        }else{
+          tarea=false;
+          noHistory.classList.remove('display');
+          noHistory.classList.add('noContentHistory');
+          noHistory.classList.remove('text-align-center');
+        }
+      });
+    historyList.innerHTML = count==0 ? tarea=false : html;
+    });
+}
+
 // Setting Up The Thread Details
 const setUpThreadDetails = (id) => {
   db.collection('threads')
@@ -149,7 +236,6 @@ const setUpThreadDetails = (id) => {
         const thread = doc.data();
         document.getElementById("thread-title").innerText = thread.title;
         document.getElementById("thread-description").innerText = thread.description;
-        displayImage('threads/', doc.id, 'thread-img', true);
       });
     });
 }
@@ -168,9 +254,7 @@ const newComment = (id) => {
         email: firebase.auth().currentUser.email,
         text: addCommentForm['description'].value,
         added: firebase.firestore.Timestamp.now(),
-        picture: document.querySelector('#comment-img-upload').files[0] != undefined
       }).then((doc) => {
-        uploadImage('comments/', '#comment-img-upload', doc.id, id);
         app.dialog.close();
         addCommentForm.reset();
       });
@@ -199,10 +283,8 @@ const setUpComments = (id) => {
               <img id="${doc.id}-img" src="./assets/comments-icon.png" class="float-left lazy lazy-fade-in enlarge-image" width="40" height="40"/>
               <p class="item-subtitle" id="comment-description">${comment.text}</p>
             </div>
-            <p class="date" id="comment-date">${comment.added.toDate().toLocaleDateString("es-ES",options)}, ${username} <span id="trash-icon"> <i class="icon f7-icons size-22 color-red delete-comment-dialog" data-thread-id="${comment.thread}" data-comment-id="${doc.id}" data-comment-img="${comment.picture}">trash</i></span></p>
+            <p class="date" id="comment-date">${comment.added.toDate().toLocaleDateString("es-ES",options)}, ${username} <span id="trash-icon"> <i class="icon f7-icons size-22 color-red delete-comment-dialog" data-thread-id="${comment.thread}" data-comment-id="${doc.id}">trash</i></span></p>
           </div>`;
-          if (comment.picture)
-            displayImage('comments/', doc.id, `${doc.id}-img`, false);
           html += li;
           count++;
         }
@@ -214,6 +296,7 @@ const setUpComments = (id) => {
       deleteOption('.comment', '#trash-icon');
     });
 }
+
 
 // Displaying Modal to Enlarge Image
 $$(document).on('click', '.enlarge-image', function () {
@@ -282,6 +365,12 @@ $$(document).on('click', '.back-link', function () {
     window.location.reload();
   });
 });
+// Reload Home NavLinks
+$$(document).on('click', '.home', function () {
+  $$(document).on('page:init', '.page[data-name="home"]', function () {
+    window.location.reload();
+  });
+});
 
 // Get Data for Thread Details Page
 $$(document).on('click', '.thread-details', function () {
@@ -302,10 +391,14 @@ const loginSwipeToClosePopup = app.popup.create({
 $$('.new-thread-dialog').on('click', function () {
 
   app.dialog.create({
-    content: `' <div class="page-content login-screen-content"> <div class="title">Nueva Tarea</div> <form class="list" id="create-thread-form"> <div class="list" id="dialog-list"> <ul> <li class="item-content item-input"> <div class="item-inner"> <div class="item-input-wrap"> <input type="text" id="title" name="title" placeholder="Titulo de Tarea" required validate/> </div> </div> </li> <li class="item-content item-input"> <div class="item-inner"> <div class="item-input-wrap"> <textarea id="description" name="description" placeholder="Descripcion" required validate></textarea> </div> </div> </li> <li class="item-content item-input"> <input class="list-button" type="file" id="thread-img-upload" required validate> </li> </ul>  <div class="row display-flex justify-content-center margin-top"> <a class="button" id="create-thread" href="#">Subir Tarea</a> <a class="button" id="cancel-thread" href="#">Cancelar</a> </div> </form> </div>'`,
+    content: `' <div class="page-content login-screen-content"> <div class="title">Nueva Tarea</div> <form class="list" id="create-thread-form"> <div class="list" id="dialog-list"> <ul> <li class="item-content item-input"> <div class="item-inner"> <div class="item-input-wrap"> <input type="text" id="title" name="title" placeholder="Titulo de Tarea" required validate/> </div> </div> </li> <li class="item-content item-input"> <div class="item-inner"> <div class="item-input-wrap"> <textarea id="description" name="description" placeholder="Descripcion" required validate></textarea> </div> </div> </li> <li class="item-content item-input"> <input class="list-button" type="file" accept="application/pdf" id="thread-img-upload" required validate> </li> </ul>  <div class="row display-flex justify-content-center margin-top"> <a class="button" id="create-thread" href="#">Subir Tarea</a> <a class="button" id="cancel-thread" href="#">Cancelar</a> </div> </form> </div>'`,
     cssClass: 'dialog'
   }).open();
   newThread();
+});
+//Open history user
+$$('.new-history-content').on('click', function () {
+  setUpHistory();
 });
 
 // Close The Thread Dialog
@@ -316,7 +409,7 @@ $$(document).on('click', '#cancel-thread', function () {
 // Open a Dialog For Adding a New Comment
 $$(document).on('click', '.new-comment-dialog', function () {
   app.dialog.create({
-    content: '<div class="page-content login-screen-content"> <div class="title">Agregar Comentario</div> <form class="list" id="add-comment-form"> <div class="list" id="dialog-list"> <ul> <li class="item-content item-input"> <div class="item-inner"> <div class="item-input-wrap"> <textarea id="description" name="description" placeholder="Escribe tu comentario" required validate></textarea> </div> </div> </li> <li class="item-content item-input"> <div class="item-inner"> <input class="list-button" type="file" id="comment-img-upload"> </li> </ul> </div> <div class="row display-flex justify-content-center"> <a class="button" id="add-comment" href="#">Enviar</a>  <a class="button" id="cancel-comment" href="#">Cancelar</a></div> </form> </div>',
+    content: '<div class="page-content login-screen-content"> <div class="title">Agregar Comentario</div> <form class="list" id="add-comment-form"> <div class="list" id="dialog-list"> <ul> <li class="item-content item-input"> <div class="item-inner"> <div class="item-input-wrap"> <textarea id="description" name="description" placeholder="Escribe tu comentario" required validate></textarea> </div> </div> </li> <li class="item-content item-input"> <div class="item-inner"> </li> </ul> </div> <div class="row display-flex justify-content-center"> <a class="button" id="add-comment" href="#">Enviar</a>  <a class="button" id="cancel-comment" href="#">Cancelar</a></div> </form> </div>',
     cssClass: 'dialog'
   }).open();
 });

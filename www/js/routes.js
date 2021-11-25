@@ -7,7 +7,17 @@ const routes = [
   {
     name: 'history',
     path: '/history',
-    url: './pages//history.html',
+    url: './pages/history.html',
+  },
+  {
+    name: 'questions',
+    path: '/questions',
+    url: './pages/questions.html',
+  },
+  {
+    name: 'about',
+    path: '/about',
+    url: './pages/about.html',
   },
   {
     path: '/login/',

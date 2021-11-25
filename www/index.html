@@ -33,31 +33,25 @@
           <div class="navbar-bg"></div>
               <div class="navbar-inner">
                 <div class="left">
-                  <a href="/" class="link">
+                  <a href="/" class="link home text-color-black">
                     <img src="assets/logo.png" alt="logo pagina" width="37"/>
+                     SCUOLA
                   </a>
-                  <a href="/" class="link text-color-black">
+                  <a href="/" class="link text-color-black home">
                     Inicio
                   </a>
                   <a href="#" class="link text-color-black new-thread-dialog">
                     Subir
                   </a>
-                  <a href="/history" class="link text-color-black">
+                  <a href="/history" class="link text-color-black new-history-content">
                     Historial
                   </a>
-                  <a href="#" class="link text-color-black theme-dark">
+                  <a href="/questions" class="link text-color-black theme-dark">
                     Preguntas
                   </a>
-                  <a href="#" class="link text-color-black">
+                  <a href="/about" class="link text-color-black">
                     Nosotros
                   </a>
-                </div>
-                <div class="center">
-                  <div class="panel-header">
-                    <a href="#" class="link text-color-black">
-                      SCUOLA
-                    </a>
-                  </div>
                 </div>
                 <div class="right">
                   <div class="signed-out display">
@@ -79,7 +73,20 @@
         <div class="page-content">
           <!-- Thread list -->
           <div class="list media-list">
-            <ul class="threads"></ul>
+            <div class="row">
+              <div class="col-25 searchHeight">
+                <div class="searchbar">
+                  <div class="searchbar-input-wrap">
+                    <input id="buscador" onkeyup="Search()" type="search" placeholder="Search" />
+                    <i class="searchbar-icon"></i>
+                    <span class="input-clear-button"></span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-75">
+                <ul id="buscadorUl" class="threads"></ul>
+              </div>
+            </div>
           </div>
         </div>
         <!-- Login Pop Up -->
