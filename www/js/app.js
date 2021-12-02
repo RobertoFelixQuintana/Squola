@@ -118,7 +118,7 @@ const newThread = () => {
     ul2 = document.getElementById("buscadorUl2");
     ul2.innerHTML=`
     <div id="avisoUl" class="display">
-      <h1 class="text-align-center">No hay estudiantes</h1>
+      <h1 class="text-align-center">No se encontraron resultados</h1>
     </div> `;
     input2 = document.getElementById('avisoUl');
     li = ul.getElementsByTagName('li');
@@ -142,7 +142,7 @@ const newThread = () => {
     }else{
       ul2.innerHTML=`
         <div id="avisoUl" class="item-inner">
-          <h1 class="text-align-center">No hay estudiantes</h1>
+          <h1 class="text-align-center">No se encontraron resultados</h1>
         </div> `;
     }
  

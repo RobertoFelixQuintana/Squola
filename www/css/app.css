@@ -125,6 +125,7 @@
 }
 .searchHeight{
   position: sticky;
+  min-width: 100px;
   top: 20px;
   z-index: 1;
 }
