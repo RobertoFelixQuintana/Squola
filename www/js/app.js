@@ -222,7 +222,7 @@ const setUpHistory= () => {
                       </div>
                       <div class="item-row">
                         <div class="item-text">
-                        Fecha de subidad de la tarea: ${fecha}
+                        Fecha de subida de la tarea: ${fecha}
                         </div>
                       </div>
                   </div> 
